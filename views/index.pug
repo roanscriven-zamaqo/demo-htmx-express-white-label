@@ -2,50 +2,50 @@ doctype html
 html(lang="en")
   head
     title= title
-    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css")
+    //- Use stable Bootstrap 5
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css")
     script(src="https://unpkg.com/htmx.org@1.5.0")
     script(src="https://kit.fontawesome.com/1857d670c9.js", crossorigin="anonymous")
     style.
       #app { padding: 20px; }
       i { padding-left: 20px; }
-      table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; }
       tr.htmx-swapping td { opacity: 0; transition: opacity 0.5s ease-out; }
-      td, th { border: 1px solid #383737; text-align: left; padding: 8px; }
-      tr:nth-child(even) { background-color: #dddddd; }
 
-  body(style="font")
-    nav(class="navTheme", style="navStyle")
-      a.navbar-brand(href="#")
-        i(class="logo")
-      button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarNav", aria-controls="navbarNav", aria-expanded="false", aria-label="Toggle navigation")
-        span.navbar-toggler-icon
-      #navbarNav.collapse.navbar-collapse
-        ul.navbar-nav
-          li.nav-item.active
-            a.nav-link(href="#") Home
-          li.nav-item
-            a.nav-link(href="#") About
-          li.nav-item
-            a.nav-link(href="#") Contact
+  body
+    //- Bootstrap navbar
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-4
+      .container-fluid
+        a.navbar-brand(href="#")
+          i(class="logo")
+        button.navbar-toggler(type="button", data-bs-toggle="collapse", data-bs-target="#navbarNav", aria-controls="navbarNav", aria-expanded="false", aria-label="Toggle navigation")
+          span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+          ul.navbar-nav.me-auto.mb-2.mb-lg-0
+            li.nav-item
+              a.nav-link.active(href="#") Home
+            li.nav-item
+              a.nav-link(href="#") About
+            li.nav-item
+              a.nav-link(href="#") Contact
 
-    #app
-      h1= heading
-      form.mb-3(hx-post="/submit", hx-swap="beforeend", hx-target="#new-item")
+    #app.container
+      h1.mb-4= heading
+      form(hx-post="/submit", hx-swap="beforeend", hx-target="#new-item", class="mb-4")
         input.form-control.mb-3(type="text", name="tableHead1", placeholder=tableHeading1)
         input.form-control.mb-3(type="text", name="tableHead2", placeholder=tableHeading2)
-        button.btn.btn-md(type="submit", style=buttonColor) Submit
+        button.btn.btn-primary(type="submit") Submit
 
-      table
+      table.table.table-striped.table-bordered
         thead
           tr
             th= tableHeading1
             th= tableHeading2
+            th Actions
         tbody#new-item(hx-target="closest tr", hx-swap="outerHTML swap:0.5s")
           each item in items
             tr
               td #{item.tableHead1}
               td #{item.tableHead2}
               td
-                button.btn.btn-primary(hx-get=`/get-edit-form/${item.id}`) Edit
-              td
-                button.btn.btn-primary(hx-delete=`/delete/${item.id}`) Delete
+                button.btn.btn-sm.btn-warning.me-2(hx-get=`/get-edit-form/${item.id}`) Edit
+                button.btn.btn-sm.btn-danger(hx-delete=`/delete/${item.id}`) Delete
