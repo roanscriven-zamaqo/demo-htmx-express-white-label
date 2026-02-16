@@ -30,7 +30,8 @@ app.use('/api', itemRoutes.routes);
 app.get('/', async (req, res) => {
   const items = await Item.findAndCountAll();
   return res.render('index', {
-    items: items.rows,
+  items: items.rows,
+  heading: process.env.heading,
   });
 });
 
