@@ -1,70 +1,51 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-  <title>= title</title>
-  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
-  <script src='https://unpkg.com/htmx.org@1.5.0'></script>
-  <script src='https://kit.fontawesome.com/1857d670c9.js' crossorigin='anonymous'></script>
-  <style>
-    #app {padding: 20px}
-    i {padding-left: 20px}
-    table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}
-    tr.htmx-swapping td {opacity: 0;transition: opacity 0.5s ease-out;}
-    td. th {border: 1px solid #383737;text-align: left;padding: 8px;}
-    tr:nth-child(even) {background-color: #dddddd;}
-  </style>
-</head>
-<body style=font>
-  <nav class=navTheme style=navStyle>
-    <a class='navbar-brand' href='#'>
-      <i class=logo></i>
-    </a>
-    <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
-      <span class='navbar-toggler-icon'></span>
-    </button>
-    <div id='navbarNav' class='collapse navbar-collapse'>
-      <ul class='navbar-nav'>
-        <li class='nav-item active'>
-          <a class='nav-link' href='#'>Home</a>
-        </li>
-        <li class='nav-item'>
-          <a class='nav-link' href='#'>About</a>
-        </li>
-        <li class='nav-item'>
-          <a class='nav-link' href='#'>Contact</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <div id='app'>
-    <h1>= heading</h1>
-    <form hx-post='/submit' hx-swap='beforeend' hx-target='#new-item' class='mb-3'>
-      <input type='text' placeholder=tableHeading1 name='tableHead1' class='form-control mb-3'>
-      <input type='text' placeholder=tableHeading2 name='tableHead2' class='form-control mb-3'>
-      <button type='submit' class='btn btn-md' style=buttonColor>Submit</button>
-    </form>
-    <table>
-      <thead>
-        <tr>
-          <th>= tableHeading1</th>
-          <th>= tableHeading2</th>
-        </tr>
-      </thead>
-      <tbody id='new-item' hx-target='closest tr' hx-swap='outerHTML swap:0.5s'>
-        <each item in items>
-          <tr>
-            <td> #{item.tableHead1}</td>
-            <td> #{item.tableHead2}</td>
-            <td>
-              <button class='btn btn-primary' hx-get=`/get-edit-form/${item.id}`>Edit</button>
-            </td>
-            <td>
-              <button hx-delete=`/delete/${item.id}` class='btn btn-primary'>Delete</button>
-            </td>
-          </tr>
-        </each>
-      </tbody>
-    </table>
-  </div>
-</body>
-</html>
+doctype html
+html(lang="en")
+  head
+    title= title
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css")
+    script(src="https://unpkg.com/htmx.org@1.5.0")
+    script(src="https://kit.fontawesome.com/1857d670c9.js", crossorigin="anonymous")
+    style.
+      #app { padding: 20px; }
+      i { padding-left: 20px; }
+      table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; }
+      tr.htmx-swapping td { opacity: 0; transition: opacity 0.5s ease-out; }
+      td, th { border: 1px solid #383737; text-align: left; padding: 8px; }
+      tr:nth-child(even) { background-color: #dddddd; }
+
+  body(style="font")
+    nav(class="navTheme", style="navStyle")
+      a.navbar-brand(href="#")
+        i(class="logo")
+      button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarNav", aria-controls="navbarNav", aria-expanded="false", aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav
+          li.nav-item.active
+            a.nav-link(href="#") Home
+          li.nav-item
+            a.nav-link(href="#") About
+          li.nav-item
+            a.nav-link(href="#") Contact
+
+    #app
+      h1= heading
+      form.mb-3(hx-post="/submit", hx-swap="beforeend", hx-target="#new-item")
+        input.form-control.mb-3(type="text", name="tableHead1", placeholder=tableHeading1)
+        input.form-control.mb-3(type="text", name="tableHead2", placeholder=tableHeading2)
+        button.btn.btn-md(type="submit", style=buttonColor) Submit
+
+      table
+        thead
+          tr
+            th= tableHeading1
+            th= tableHeading2
+        tbody#new-item(hx-target="closest tr", hx-swap="outerHTML swap:0.5s")
+          each item in items
+            tr
+              td #{item.tableHead1}
+              td #{item.tableHead2}
+              td
+                button.btn.btn-primary(hx-get=`/get-edit-form/${item.id}`) Edit
+              td
+                button.btn.btn-primary(hx-delete=`/delete/${item.id}`) Delete
